@@ -1,20 +1,31 @@
-import React from 'react';
+import React, {FC} from 'react';
+import {ITodo} from '../Todo';
+import {TodoItem} from './TodoItem';
 
-export const TodoList = () => {
+interface ITodoListPropsType {
+    todos: ITodo[]
+    removeTodo: (id: number) => void
+}
+
+export const TodoList: FC<ITodoListPropsType> = (
+    {
+        todos,
+        removeTodo,
+    }
+) => {
+    // Components before rendering
+    const componentTodoList = todos.map(todo => {
+        return <TodoItem key={todo.id}
+                         todo={todo}
+                         removeTodo={removeTodo}
+            />
+
+    })
     return (
         <>
             <h3 className="title mb-3">Список дел</h3>
             <ul id="items" className="list-group">
-                <li className="list-group-item">
-                    Приготовить завтрак
-                    <button
-                        data-action="delete"
-                        type="button"
-                        className="btn btn-light btn-sm float-right"
-                    >
-                        Удалить
-                    </button>
-                </li>
+                {componentTodoList}
             </ul>
         </>
     );

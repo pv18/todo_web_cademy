@@ -6,12 +6,14 @@ import {ITodo} from '../Todo';
 interface ITodoMainPropsType {
     todos: ITodo[]
     addTodo: (title: string) => void
+    removeTodo: (id: number) => void
 }
 
 export const TodoMain: FC<ITodoMainPropsType> = (
     {
         todos,
-        addTodo
+        addTodo,
+        removeTodo
     }
 ) => {
     return (
@@ -19,7 +21,9 @@ export const TodoMain: FC<ITodoMainPropsType> = (
             <div id="main" className="card card-body">
                 <TodoForm addTodo={addTodo}/>
                 <hr/>
-                <TodoList/>
+                <TodoList todos={todos}
+                          removeTodo={removeTodo}
+                />
             </div>
         </div>
     );

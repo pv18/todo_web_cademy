@@ -21,11 +21,13 @@ export const Todo = () => {
         const newTodo = {userId: 1, id: new Date().getMilliseconds(), title: title, completed: false}
         setTodos([newTodo, ...todos])
     }
+    const removeTodo = (id: number) => {
+        setTodos(todos.filter(todo => todo.id !== id))
+    }
 
     async function fetchTodos() {
         try {
             const response = await axios.get<ITodo[]>('https://jsonplaceholder.typicode.com/todos?_limit=10')
-            console.log(response.data)
             setTodos(response.data)
         } catch (e) {
             alert(e)
@@ -35,7 +37,10 @@ export const Todo = () => {
     return (
         <>
             <TodoHeader/>
-            <TodoMain todos={todos} addTodo={addTodo}/>
+            <TodoMain todos={todos}
+                      addTodo={addTodo}
+                      removeTodo={removeTodo}
+            />
         </>
     );
 };

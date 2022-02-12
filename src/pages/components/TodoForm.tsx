@@ -1,5 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, FC, useState} from 'react';
-import {ITodo} from '../Todo';
+import React, {ChangeEvent, FC, KeyboardEvent, useState} from 'react';
 
 interface ITodoFormPropsType {
     addTodo: (title: string) => void
@@ -19,6 +18,7 @@ export const TodoForm: FC<ITodoFormPropsType> = (
     const handlerClick = () => {
         if (title.trim().length) {
             addTodo(title)
+            setTitle('')
         }
     }
     const handlerKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -27,7 +27,7 @@ export const TodoForm: FC<ITodoFormPropsType> = (
         }
     }
     return (
-        <form id="addForm" className="form-inline mb-3">
+        <div className="form-inline mb-3">
             <input
                 type="text"
                 className="form-control mr-2 flex-grow-1"
@@ -43,7 +43,7 @@ export const TodoForm: FC<ITodoFormPropsType> = (
                 value="Добавить"
                 onClick={handlerClick}
             />
-        </form>
+        </div>
     );
 };
 
