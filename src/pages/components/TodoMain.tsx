@@ -7,13 +7,15 @@ interface ITodoMainPropsType {
     todos: ITodo[]
     addTodo: (title: string) => void
     removeTodo: (id: number) => void
+    changeCompleted: (id: number) => void
 }
 
 export const TodoMain: FC<ITodoMainPropsType> = (
     {
         todos,
         addTodo,
-        removeTodo
+        removeTodo,
+        changeCompleted
     }
 ) => {
     return (
@@ -25,6 +27,7 @@ export const TodoMain: FC<ITodoMainPropsType> = (
                     ? <h1 className="title mb-3">Нет To Do !!!</h1>
                     : <TodoList todos={todos}
                                 removeTodo={removeTodo}
+                                changeCompleted={changeCompleted}
                     />
                 }
             </div>

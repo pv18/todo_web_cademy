@@ -5,12 +5,15 @@ import {TodoItem} from './TodoItem';
 interface ITodoListPropsType {
     todos: ITodo[]
     removeTodo: (id: number) => void
+    changeCompleted: (id: number) => void
+
 }
 
 export const TodoList: FC<ITodoListPropsType> = (
     {
         todos,
         removeTodo,
+        changeCompleted
     }
 ) => {
     // Components before rendering
@@ -18,6 +21,7 @@ export const TodoList: FC<ITodoListPropsType> = (
         return <TodoItem key={todo.id}
                          todo={todo}
                          removeTodo={removeTodo}
+                         changeCompleted={changeCompleted}
             />
 
     })

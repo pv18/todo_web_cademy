@@ -32,6 +32,11 @@ export const Todo = () => {
             return todos
         }
     }
+    const changeCompleted = (id: number) => {
+        setTodos(todos.map(todo =>
+            (todo.id !== id) ? todo : {...todo, completed: !todo.completed}
+        ))
+    }
 
     async function fetchTodos() {
         try {
@@ -51,6 +56,7 @@ export const Todo = () => {
             <TodoMain todos={filteredTodos}
                       addTodo={addTodo}
                       removeTodo={removeTodo}
+                      changeCompleted={changeCompleted}
             />
         </>
     );
