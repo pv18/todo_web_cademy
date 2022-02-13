@@ -3,6 +3,8 @@ import {TodoHeader} from './components/TodoHeader';
 import {TodoMain} from './components/TodoMain';
 import axios from 'axios';
 
+export type FilterValueType = 'all' | 'active' | 'completed'
+
 export interface ITodo {
     userId: number
     id: number
@@ -13,11 +15,22 @@ export interface ITodo {
 export const Todo = () => {
     const [todos, setTodos] = useState<ITodo[]>([])
     const [search, setSearch] = useState<string>('')
+    const [filter, setFilter] = useState<FilterValueType>('all')
 
     useEffect(() => {
         fetchTodos()
     }, [])
+
     // Functions
+    async function fetchTodos() {
+        try {
+            const response = await axios.get<ITodo[]>('https://jsonplaceholder.typicode.com/todos?_limit=10')
+            setTodos(response.data)
+        } catch (e) {
+            alert(e)
+        }
+    }
+
     const addTodo = (title: string) => {
         const newTodo = {userId: 1, id: new Date().getMilliseconds(), title: title, completed: false}
         setTodos([newTodo, ...todos])
@@ -37,19 +50,20 @@ export const Todo = () => {
             (todo.id !== id) ? todo : {...todo, completed: !todo.completed}
         ))
     }
-
-    async function fetchTodos() {
-        try {
-            const response = await axios.get<ITodo[]>('https://jsonplaceholder.typicode.com/todos?_limit=10')
-            setTodos(response.data)
-        } catch (e) {
-            alert(e)
+    const getFilteredTodos = (filter: FilterValueType) => {
+        switch (filter) {
+            case 'active':
+                return todosAfterSearch.filter(todo => !todo.completed)
+            case 'completed':
+                return todosAfterSearch.filter(todo => todo.completed)
+            default:
+                return todosAfterSearch
         }
     }
 
     // Components before rendering
-    const filteredTodos = searchTodo(search)
-
+    const todosAfterSearch = searchTodo(search)
+    const filteredTodos = getFilteredTodos(filter)
     return (
         <>
             <TodoHeader setSearch={setSearch}/>
@@ -57,6 +71,7 @@ export const Todo = () => {
                       addTodo={addTodo}
                       removeTodo={removeTodo}
                       changeCompleted={changeCompleted}
+                      setFilter={setFilter}
             />
         </>
     );
