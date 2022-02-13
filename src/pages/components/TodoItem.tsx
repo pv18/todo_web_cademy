@@ -17,7 +17,10 @@ export const TodoItem: FC<ITodoItemPropsType> = (
     // Functions
     const handlerClick = () => removeTodo(todo.id)
     const handlerChange = () => changeCompleted(todo.id)
-
+    // Components before rendering
+    const componentTitle = (todo.completed)
+        ? <span><s>{todo.title}</s></span>
+        : <span>{todo.title}</span>
     return (
         <li className="list-group-item">
             <input
@@ -26,7 +29,7 @@ export const TodoItem: FC<ITodoItemPropsType> = (
                 checked={todo.completed}
                 onChange={handlerChange}
             />
-            {todo.title}
+            {componentTitle}
             <button
                 type="button"
                 className="btn btn-light btn-sm float-right"

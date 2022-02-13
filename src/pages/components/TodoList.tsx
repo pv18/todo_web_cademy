@@ -27,7 +27,7 @@ export const TodoList: FC<ITodoListPropsType> = (
     })
     return (
         <>
-            <h3 className="title mb-3">Список дел</h3>
+            <h3 className="title mb-3">Todo list</h3>
             <ul id="items" className="list-group">
                 {componentTodoList}
             </ul>

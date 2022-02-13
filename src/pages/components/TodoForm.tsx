@@ -31,7 +31,7 @@ export const TodoForm: FC<ITodoFormPropsType> = (
             <input
                 type="text"
                 className="form-control mr-2 flex-grow-1"
-                placeholder="Добавить задачу"
+                placeholder="Add todo..."
                 value={title}
                 onChange={handlerChange}
                 onKeyPress={handlerKeyPress}
@@ -40,7 +40,7 @@ export const TodoForm: FC<ITodoFormPropsType> = (
             <input
                 type="submit"
                 className="btn btn-dark"
-                value="Добавить"
+                value="Add ToDo"
                 onClick={handlerClick}
             />
         </div>

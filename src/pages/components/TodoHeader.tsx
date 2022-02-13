@@ -21,13 +21,13 @@ export const TodoHeader: FC<ITodoHeaderPropsType> = (
             <div className="container">
                 <div className="row">
                     <div className="col-md-6">
-                        <h1>Планировщик</h1>
+                        <h1>ToDo</h1>
                     </div>
                     <div className="col-md-6 align-self-center">
                         <input
                             type="text"
                             className="form-control"
-                            placeholder="Поиск по списку..."
+                            placeholder="Search through the list..."
                             value={title}
                             onChange={handlerChange}
                         />

@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {TodoHeader} from './components/TodoHeader';
 import {TodoMain} from './components/TodoMain';
 import axios from 'axios';
+import {getPageCount, getPagesArray} from './utils/page';
 
 export type FilterValueType = 'all' | 'active' | 'completed'
 
@@ -13,19 +14,26 @@ export interface ITodo {
 }
 
 export const Todo = () => {
-    const [todos, setTodos] = useState<ITodo[]>([])
-    const [search, setSearch] = useState<string>('')
-    const [filter, setFilter] = useState<FilterValueType>('all')
+    const [todos, setTodos] = useState<ITodo[]>([]) // задачи
+    const [search, setSearch] = useState<string>('') // тескт для поиска
+    const [filter, setFilter] = useState<FilterValueType>('all') // фильтр
+    const [totalPage, setTotalPage] = useState<number>(0) // количество страниц пагинации
+    const [limit, setLimit] = useState<number>(10) // количество задач для отображения на странице
+    const [page, setPage] = useState<number>(1) // текущая страница с отображением задач
+    let pagesArray = getPagesArray(totalPage)
 
     useEffect(() => {
-        fetchTodos()
+        fetchTodos(limit, page)
     }, [])
 
     // Functions
-    async function fetchTodos() {
+    async function fetchTodos(limit: number = 10, page: number = 1) {
+        const getString = `https://jsonplaceholder.typicode.com/todos?_limit=${limit}&_page=${page}`
         try {
-            const response = await axios.get<ITodo[]>('https://jsonplaceholder.typicode.com/todos?_limit=10')
+            const response = await axios.get<ITodo[]>(getString)
             setTodos(response.data)
+            const totalCount = +(response.headers['x-total-count']) // общее количество страниц
+            setTotalPage(getPageCount(totalCount, limit))
         } catch (e) {
             alert(e)
         }
@@ -72,6 +80,7 @@ export const Todo = () => {
                       removeTodo={removeTodo}
                       changeCompleted={changeCompleted}
                       setFilter={setFilter}
+                      pagesArray={pagesArray}
             />
         </>
     );

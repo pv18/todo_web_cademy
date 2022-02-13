@@ -3,9 +3,11 @@ import {TodoForm} from './TodoForm';
 import {TodoList} from './TodoList';
 import {FilterValueType, ITodo} from '../Todo';
 import {TodoFilters} from './TodoFilters';
+import {Pagination} from './Pagination';
 
 interface ITodoMainPropsType {
     todos: ITodo[]
+    pagesArray: number[]
     addTodo: (title: string) => void
     removeTodo: (id: number) => void
     changeCompleted: (id: number) => void
@@ -18,12 +20,13 @@ export const TodoMain: FC<ITodoMainPropsType> = (
         addTodo,
         removeTodo,
         changeCompleted,
-        setFilter
+        setFilter,
+        pagesArray
     }
 ) => {
     // Components before rendering
     const componentTodoList = todos.length === 0
-        ? <h1 className="title mb-3">Нет To Do !!!</h1>
+        ? <h1 className="title mb-3 text-center" >ЗАДАЧ НЕТ !!!</h1>
         : <TodoList todos={todos}
                     removeTodo={removeTodo}
                     changeCompleted={changeCompleted}
@@ -34,6 +37,7 @@ export const TodoMain: FC<ITodoMainPropsType> = (
                 <TodoForm addTodo={addTodo}/>
                 <hr/>
                 {componentTodoList}
+                <Pagination pagesArray={pagesArray}/>
                 <TodoFilters setFilter={setFilter}/>
             </div>
         </div>
