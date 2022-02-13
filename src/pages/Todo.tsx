@@ -12,6 +12,7 @@ export interface ITodo {
 
 export const Todo = () => {
     const [todos, setTodos] = useState<ITodo[]>([])
+    const [search, setSearch] = useState<string>('')
 
     useEffect(() => {
         fetchTodos()
@@ -24,6 +25,13 @@ export const Todo = () => {
     const removeTodo = (id: number) => {
         setTodos(todos.filter(todo => todo.id !== id))
     }
+    const searchTodo = (search: string) => {
+        if (search.trim().length) {
+            return todos.filter(todo => todo.title.toLowerCase().includes(search.toLowerCase()))
+        } else {
+            return todos
+        }
+    }
 
     async function fetchTodos() {
         try {
@@ -34,10 +42,13 @@ export const Todo = () => {
         }
     }
 
+    // Components before rendering
+    const filteredTodos = searchTodo(search)
+
     return (
         <>
-            <TodoHeader/>
-            <TodoMain todos={todos}
+            <TodoHeader setSearch={setSearch}/>
+            <TodoMain todos={filteredTodos}
                       addTodo={addTodo}
                       removeTodo={removeTodo}
             />

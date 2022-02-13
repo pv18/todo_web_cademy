@@ -21,9 +21,12 @@ export const TodoMain: FC<ITodoMainPropsType> = (
             <div id="main" className="card card-body">
                 <TodoForm addTodo={addTodo}/>
                 <hr/>
-                <TodoList todos={todos}
-                          removeTodo={removeTodo}
-                />
+                {todos.length === 0
+                    ? <h1 className="title mb-3">Нет To Do !!!</h1>
+                    : <TodoList todos={todos}
+                                removeTodo={removeTodo}
+                    />
+                }
             </div>
         </div>
     );
