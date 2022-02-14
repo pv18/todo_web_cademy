@@ -24,7 +24,7 @@ export const Todo = () => {
 
     useEffect(() => {
         fetchTodos(limit, page)
-    }, [])
+    }, [page])
 
     // Functions
     async function fetchTodos(limit: number = 10, page: number = 1) {
@@ -76,6 +76,8 @@ export const Todo = () => {
         <>
             <TodoHeader setSearch={setSearch}/>
             <TodoMain todos={filteredTodos}
+                      page={page}
+                      setPage={setPage}
                       addTodo={addTodo}
                       removeTodo={removeTodo}
                       changeCompleted={changeCompleted}

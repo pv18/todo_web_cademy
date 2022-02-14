@@ -2,33 +2,39 @@ import React, {FC} from 'react';
 
 interface IPaginationPropsType {
     pagesArray: number[]
+    page: number
+    setPage: (page: number) => void
 }
 
 export const Pagination: FC<IPaginationPropsType> = (
     {
-        pagesArray
+        pagesArray,
+        page,
+        setPage
     }
 ) => {
+    // Functions
+    const handlerClick = (page: number) => setPage(page)
+    const handlerPreviousPage = () => (page !== 1) && setPage(page - 1)
+    const handlerNextPage = () => (page !== pagesArray[pagesArray.length - 1]) && setPage(page + 1)
     // Components before rendering
-    const componentList = pagesArray.map(page=>{
-        return <li key={page}>
-
-        </li>
+    const componentList = pagesArray.map(p => {
+        const style = `btn ${(page === p) ? 'btn-dark' : 'btn-light'}`
+        return (
+            <li key={p} className="page-item" onClick={() => handlerClick(p)}>
+                <span className={style} role="button">{p}</span>
+            </li>
+        )
     })
     return (
         <nav>
-            <ul className="pagination justify-content-center">
-                <li className="page-item disabled">
-                    <a className="page-link" href="#" aria-disabled="true">Previous</a>
+            <ul className="pagination justify-content-center mt-3">
+                <li className="page-item" onClick={handlerPreviousPage}>
+                    <span className="btn btn-light" role="button">Previous</span>
                 </li>
-
-                {/*<li className="page-item"><a className="page-link" href="#">1</a></li>*/}
-                {/*<li className="page-item active" aria-current="page">*/}
-                {/*    <a className="page-link" href="#">2 <span className="sr-only">(current)</span></a>*/}
-                {/*</li>*/}
-                {/*<li className="page-item"><a className="page-link" href="#">3</a></li>*/}
-                <li className="page-item">
-                    <a className="page-link" href="#">Next</a>
+                {componentList}
+                <li className="page-item" onClick={handlerNextPage}>
+                    <span className="btn btn-light" role="button">Next</span>
                 </li>
             </ul>
         </nav>
